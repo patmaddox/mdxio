@@ -15,7 +15,7 @@ class MainController < ApplicationController
         v.say "Thank you for your interest in hiring Pat Maddox. Please wait while I connect you to his agent."
         v.dial Contact.find(2).phone_number, :timeLimit => 10
         v.say "Self-destruct sequence initiated"
-        10.downto(1) {|i| v.say i.to_s; v.pause 1 }
+        3.downto(1) {|i| v.say i.to_s; v.pause 1 }
         v.hangup
       end
       render xml: verb.response
