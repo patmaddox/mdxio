@@ -9,11 +9,11 @@ class MainController < ApplicationController
     if Contact.whitelisted?(params['From'])
       render xml: Twilio::Verb.dial(ENV['MY_PHONE_NUMBER'])
     else
-      tr = Twilio::TwiML::Response.new do |r|
-        r.Say "Leave a message. You have 30 seconds."
-        r.Record maxLength: 30, action: voicemail_callback_url
+      verb = Twilio::Verb.new do |v|
+        v.say "Leave a message. You have 30 seconds."
+        v.record maxLength: 30, action: voicemail_callback_url
       end
-      render xml: tr.text
+      render xml: verb.response
 #      render xml: Twilio::Verb.reject
     end
   end
