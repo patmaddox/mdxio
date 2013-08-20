@@ -8,6 +8,10 @@ class Contact < ActiveRecord::Base
     whitelisted.where(phone_number: phone_number).exists?
   end
 
+  def self.blacklisted?(phone_number)
+    blacklisted.where(phone_number: phone_number).exists?
+  end
+
   def whitelist
     self.blacklisted = false
     self.whitelisted = true
