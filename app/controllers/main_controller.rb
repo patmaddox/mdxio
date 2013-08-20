@@ -4,6 +4,6 @@ class MainController < ApplicationController
   end
 
   def twilio_callback
-    render text: Twilio::Verb.dial(ENV['MY_PHONE_NUMBER'])
+    render xml: Twilio::Verb.dial(ENV['MY_PHONE_NUMBER'])
   end
 end
