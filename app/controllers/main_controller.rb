@@ -1,4 +1,6 @@
 class MainController < ApplicationController
+  protect_from_forgery :except => :twilio_callback
+
   def home
     render text: 'I am Pat Maddox'
   end
