@@ -1,6 +1,7 @@
 class VoicemailsController < ApplicationController
   protect_from_forgery except: [:create]
   before_filter :validate_twilio_sid, only: [:create]
+  http_basic_authenticate_with name: ENV['USERNAME'], password: ENV['PASSWORD'], only: :index
 
   def create
     vm = Voicemail.create! phone_number: params['From'], url: params['RecordingUrl']
