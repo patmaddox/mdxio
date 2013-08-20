@@ -1,7 +1,7 @@
 Mdxio::Application.routes.draw do
   root "main#home"
   post "/twilio_callback" => "main#twilio_callback"
-  post "/voicemails" => "main#voicemail_callback", as: :voicemail_callback
+  resources :voicemails
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

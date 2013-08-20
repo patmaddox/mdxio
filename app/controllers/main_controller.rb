@@ -11,15 +11,10 @@ class MainController < ApplicationController
     else
       verb = Twilio::Verb.new do |v|
         v.say "Leave a message. You have 30 seconds."
-        v.record maxLength: 30, action: voicemail_callback_url
+        v.record maxLength: 30, action: voicemails_url
       end
       render xml: verb.response
 #      render xml: Twilio::Verb.reject
     end
-  end
-
-  def voicemail_callback
-    Voicemail.create! phone_number: params['From'], url: params['RecordingUrl']
-    render xml: Twilio::Verb.say('Goodbye')
   end
 end

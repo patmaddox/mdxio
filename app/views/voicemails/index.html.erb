@@ -1,0 +1,10 @@
+<h1>Voicemails</h1>
+
+<ul>
+<% @voicemails.each do |vm| %>
+  <li>
+    <%= link_to vm.phone_number, vm.url %>
+    -
+    <%= distance_of_time_in_words(vm.created_at, Time.now) %> ago
+  </li>
+<% end %>
