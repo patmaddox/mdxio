@@ -6,6 +6,7 @@ gem 'rails', '4.0.0'
 gem 'sqlite3', group: :development
 gem 'pg', group: :production
 gem 'twilio'
+gem 'newrelic_rpm', group: :production
 
 group :development, :test do
   gem 'rspec-rails'
