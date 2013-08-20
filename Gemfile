@@ -7,6 +7,10 @@ gem 'sqlite3', group: :development
 gem 'pg', group: :production
 gem 'twilio'
 
+group :development, :test do
+  gem 'rspec-rails'
+end
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
