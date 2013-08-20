@@ -13,8 +13,7 @@ class MainController < ApplicationController
       verb = Twilio::Verb.new do |v|
         v.pause 3
         v.say "Thank you for your interest in hiring Pat Maddox. Please wait while I connect you to his agent."
-        v.dial Contact.find(2).phone_number
-        v.pause 30
+        v.dial Contact.find(2).phone_number, :timeLimit => 10
         v.say "Self-destruct sequence initiated"
         10.downto(1) {|i| v.say i.to_s; v.pause 1 }
         v.hangup
