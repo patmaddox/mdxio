@@ -1,6 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    activerecord (2.3.18)
+      activesupport (= 2.3.18)
+    activesupport (2.3.18)
     builder (3.2.2)
     httparty (0.11.0)
       multi_json (~> 1.0)
@@ -23,5 +26,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord
   sinatra
   twilio

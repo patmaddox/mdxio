@@ -1,7 +1,6 @@
 require 'sinatra'
-require 'twilio'
-
-Twilio.connect ENV['TWILIO_SID'], ENV['TWILIO_TOKEN']
+require './environment'
+require './models/contact'
 
 post '/twilio_callback' do
   Twilio::Verb.dial ENV['MY_PHONE_NUMBER']
