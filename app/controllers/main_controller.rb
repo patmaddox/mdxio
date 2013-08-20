@@ -6,8 +6,7 @@ class MainController < ApplicationController
   end
 
   def twilio_callback
-    if (contact = Contact.find_by_phone_number(params['From'])) &&
-        contact.whitelist?
+    if Contact.whitelisted?(params['From'])
       render xml: Twilio::Verb.dial(ENV['MY_PHONE_NUMBER'])
     else
       render xml: Twilio::Verb.reject
