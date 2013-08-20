@@ -13,7 +13,7 @@ class MainController < ApplicationController
         r.Say "Leave a message. You have 30 seconds."
         r.Record maxLength: 30, action: voicemail_callback_url
       end
-      render xml: r.text
+      render xml: tr.text
 #      render xml: Twilio::Verb.reject
     end
   end
