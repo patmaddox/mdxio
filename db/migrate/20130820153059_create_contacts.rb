@@ -4,8 +4,8 @@ class CreateContacts < ActiveRecord::Migration
       t.string :name, :null => false
       t.string :phone_number
       t.string :email
-      t.boolean :whitelist, :null => false, :default => false
-      t.boolean :blacklist, :null => false, :default => false
+      t.boolean :whitelisted, :null => false, :default => false
+      t.boolean :blacklisted, :null => false, :default => false
       t.timestamps
     end
   end

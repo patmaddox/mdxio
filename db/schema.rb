@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(version: 20130820153059) do
     t.string   "name",                         null: false
     t.string   "phone_number"
     t.string   "email"
-    t.boolean  "whitelist",    default: false, null: false
-    t.boolean  "blacklist",    default: false, null: false
+    t.boolean  "whitelisted",  default: false, null: false
+    t.boolean  "blacklisted",  default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
