@@ -6,7 +6,10 @@ class MainController < ApplicationController
   end
 
   def twilio_callback
-    if contact = Contact.find_by_phone_number(params['From']) &&
+    Rails.logger.debug "*******"
+    Rails.logger params.inspect
+
+    if (contact = Contact.find_by_phone_number(params['From'])) &&
         contact.whitelist?
       render xml: Twilio::Verb.dial(ENV['MY_PHONE_NUMBER'])
     else
