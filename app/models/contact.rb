@@ -4,12 +4,13 @@ class Contact < ActiveRecord::Base
   scope :whitelisted, -> { where(:whitelisted => true) }
   scope :blacklisted, -> { where(:blacklisted => true) }
 
-  def self.whitelisted?(phone_number)
-    whitelisted.where(phone_number: phone_number).exists?
+  def self.lookup(phone_number)
+    where(phone_number: phone_number).first || new(phone_number: phone_number)
   end
 
-  def self.blacklisted?(phone_number)
-    blacklisted.where(phone_number: phone_number).exists?
+  alias_method :unknown?, :new_record?
+  def known?
+    !unknown?
   end
 
   def whitelist

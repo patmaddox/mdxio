@@ -7,9 +7,16 @@ class MainController < ApplicationController
   end
 
   def twilio_callback
-    if Contact.whitelisted?(params['From'])
+    contact = Contact.lookup params['From']
+    if contact.unknown?
+      verb = Twilio::Verb.new do |v|
+        v.say "Leave a message after the tone. You have 30 seconds."
+        v.record maxLength: 30, action: voicemails_url
+      end
+      render xml: verb.response
+    elsif contact.whitelisted?
       render xml: Twilio::Verb.dial(ENV['MY_PHONE_NUMBER'])
-    elsif Contact.blacklisted?(params['From'])
+    elsif contact.blacklisted?
       verb = Twilio::Verb.new do |v|
         v.pause 3
         v.say "Thank you for your interest in hiring Pat Maddox. Please wait while I connect you to his agent."
@@ -19,13 +26,6 @@ class MainController < ApplicationController
         v.hangup
       end
       render xml: verb.response
-    else
-      verb = Twilio::Verb.new do |v|
-        v.say "Leave a message after the tone. You have 30 seconds."
-        v.record maxLength: 30, action: voicemails_url
-      end
-      render xml: verb.response
-#      render xml: Twilio::Verb.reject
     end
   end
 end

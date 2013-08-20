@@ -1,19 +1,14 @@
 require 'spec_helper'
 
 describe Contact do
-  describe ".whitelisted?(phone)" do
-    it "is true when the phone number is whitelisted" do
-      Contact.create! phone_number: "123", whitelisted: true, name: 'Pat'
-      expect(Contact.whitelisted?("123")).to be_true
+  describe ".lookup(phone_number)" do
+    it "fetches a matching record" do
+      contact = Contact.create! phone_number: "123", name: 'Pat'
+      expect(Contact.lookup("123")).to eq(contact)
     end
 
-    it "is false when the phone number is not whitelisted" do
-      Contact.create! phone_number: "123", whitelisted: false, name: 'Pat'
-      expect(Contact.whitelisted?("123")).to be_false
-    end
-
-    it "is false when no such phone number is known" do
-      expect(Contact.whitelisted?("123")).to be_false
+    it "returns a new record if none match" do
+      expect(Contact.lookup("456")).to be_new_record
     end
   end
 
@@ -23,6 +18,26 @@ describe Contact do
       contact.should_not be_valid
       expect(contact).to have(1).error_on(:whitelisted)
       expect(contact).to have(1).error_on(:blacklisted)
+    end
+  end
+
+  describe "#unknown?" do
+    it "is true for a new record" do
+      expect(Contact.new).to be_unknown
+    end
+
+    it "is false for a saved record" do
+      expect(Contact.create!(name: 'Pat')).to_not be_unknown
+    end
+  end
+
+  describe "#known?" do
+    it "is true for a saved record" do
+      expect(Contact.create!(name: 'Pat')).to be_known
+    end
+
+    it "is false for a new record" do
+      expect(Contact.new).to_not be_known
     end
   end
 
