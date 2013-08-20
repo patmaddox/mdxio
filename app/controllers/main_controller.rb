@@ -6,8 +6,8 @@ class MainController < ApplicationController
   end
 
   def twilio_callback
-    Rails.logger.debug "*******"
-    Rails.logger params.inspect
+    Rails.logger.warn "*******"
+    Rails.logger.warn params.inspect
 
     if (contact = Contact.find_by_phone_number(params['From'])) &&
         contact.whitelist?
