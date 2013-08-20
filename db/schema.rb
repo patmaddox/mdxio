@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130820153059) do
+ActiveRecord::Schema.define(version: 20130820175059) do
 
   create_table "contacts", force: true do |t|
     t.string   "name",                         null: false
@@ -19,6 +19,13 @@ ActiveRecord::Schema.define(version: 20130820153059) do
     t.string   "email"
     t.boolean  "whitelisted",  default: false, null: false
     t.boolean  "blacklisted",  default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "voicemails", force: true do |t|
+    t.string   "phone_number", null: false
+    t.string   "url",          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
