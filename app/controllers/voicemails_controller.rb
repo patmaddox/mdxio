@@ -1,7 +1,7 @@
 class VoicemailsController < ApplicationController
-  protect_from_forgery :except => [:post]
+  protect_from_forgery :except => [:create]
 
-  def post
+  def create
     vm = Voicemail.create! phone_number: params['From'], url: params['RecordingUrl']
     Twilio::Sms.message(
       ENV['MY_PHONE_NUMBER'],
