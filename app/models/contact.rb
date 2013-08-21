@@ -1,8 +1,8 @@
 class Contact < ActiveRecord::Base
   validates :name, :presence => true
-  validate :whitelist_xor_blacklist
-  scope :whitelisted, -> { where(:whitelisted => true) }
-  scope :blacklisted, -> { where(:blacklisted => true) }
+
+  scope :whitelisted, -> { where(state: 'whitelisted') }
+  scope :blacklisted, -> { where(state: 'blacklisted') }
 
   def self.lookup(phone_number)
     where(phone_number: phone_number).first || new(phone_number: phone_number)
@@ -14,20 +14,18 @@ class Contact < ActiveRecord::Base
   end
 
   def whitelist
-    self.blacklisted = false
-    self.whitelisted = true
+    self.state = "whitelisted"
+  end
+
+  def whitelisted?
+    state == "whitelisted"
   end
 
   def blacklist
-    self.whitelisted = false
-    self.blacklisted = true
+    self.state = "blacklisted"
   end
 
-  private
-  def whitelist_xor_blacklist
-    if whitelisted? && blacklisted?
-      errors.add(:whitelisted, 'cannot be true along with blacklisted')
-      errors.add(:blacklisted, 'cannot be true along with whitelisted')
-    end
+  def blacklisted?
+    self.state == "blacklisted"
   end
 end

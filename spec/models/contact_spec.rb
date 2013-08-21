@@ -12,12 +12,17 @@ describe Contact do
     end
   end
 
-  describe "validations" do
-    it "rejects a contact that is whitelisted and blacklisted" do
-      contact = Contact.new whitelisted: true, blacklisted: true, name: 'Pat'
-      contact.should_not be_valid
-      expect(contact).to have(1).error_on(:whitelisted)
-      expect(contact).to have(1).error_on(:blacklisted)
+  describe ".whitelisted" do
+    it "returns whitelisted contacts" do
+      contact = Contact.create name: 'Pat', state: 'whitelisted'
+      expect(Contact.whitelisted).to include(contact)
+    end
+  end
+
+  describe ".blacklisted" do
+    it "returns blacklisted contacts" do
+      contact = Contact.create name: 'Pat', state: 'blacklisted'
+      expect(Contact.blacklisted).to include(contact)
     end
   end
 
@@ -48,12 +53,6 @@ describe Contact do
       contact.whitelist
       contact.should be_whitelisted
     end
-
-    it "sets blacklisted? to false" do
-      contact.blacklisted = true
-      contact.whitelist
-      contact.should_not be_blacklisted
-    end
   end
 
   describe "blacklist" do
@@ -62,12 +61,6 @@ describe Contact do
     it "sets blacklisted? to true" do
       contact.blacklist
       contact.should be_blacklisted
-    end
-
-    it "sets whitelisted? to false" do
-      contact.whitelisted = true
-      contact.blacklist
-      contact.should_not be_whitelisted
     end
   end
 end
