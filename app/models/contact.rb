@@ -28,4 +28,24 @@ class Contact < ActiveRecord::Base
   def blacklisted?
     self.state == "blacklisted"
   end
+
+  def forward_call(voicemails_url)
+    if unknown?
+      Twilio::Verb.new do |v|
+        v.say "Leave a message after the tone. You have 30 seconds."
+        v.record maxLength: 30, action: voicemails_url
+      end
+    elsif whitelisted?
+      Twilio::Verb.dial(ENV['MY_PHONE_NUMBER'])
+    elsif blacklisted?
+      Twilio::Verb.new do |v|
+        v.pause 3
+        v.say "Thank you for your interest in hiring Pat Maddox. Please wait while I connect you to his agent."
+        v.dial Contact.find(2).phone_number, :timeLimit => 10
+        v.say "Self-destruct sequence initiated"
+        3.downto(1) {|i| v.say i.to_s; v.pause 1 }
+        v.hangup
+      end
+    end
+  end
 end
