@@ -8,6 +8,6 @@ class MainController < ApplicationController
 
   def twilio_callback
     render xml: Contact.lookup(params['From']).
-      forward_call(voicemails_url).response
+      forward_call(voicemails_url)#.response
   end
 end
